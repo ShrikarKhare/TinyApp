@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<main class="container">
+    <h3>My URLs</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Short URL</th>
+            <th scope="col">Long URL</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for url in urls %}
+            <tr>
+                <td>{{ url.short_url }}</td>
+                <td>{{ url.long_url }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}
