@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tinyapp.views import UserRegistrationView
-from tinyapp.views import URLListView
+from tinyapp.views import UserRegistrationView,URLListView,UrlCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', UserRegistrationView.as_view(), name='register'),
-    path('urls/', URLListView.as_view(), name='urls')
+    path('urls/', URLListView.as_view(), name='urls'),
+    path('urls/new/', UrlCreateView.as_view(), name ='urls_new')
 ]
