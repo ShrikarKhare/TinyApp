@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tinyapp.views import UserRegistrationView,URLListView,UrlCreateView, UrlDetailView, UrlRedirectView
+from tinyapp.views import UserRegistrationView,URLListView,UrlCreateView, UrlDetailView, UrlRedirectView,UrlDeleteView, UrlUpdateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +23,7 @@ urlpatterns = [
     path('urls/', URLListView.as_view(), name='urls'),
     path('urls/new/', UrlCreateView.as_view(), name ='urls_new'),
     path('urls/<pk>/', UrlDetailView.as_view(), name ='urls_detail'),
-    path('urls/u/<short_url>/', UrlRedirectView.as_view(), name ='urls_redirect')
+    path('urls/u/<short_url>/', UrlRedirectView.as_view(), name ='urls_redirect'),
+    path('urls/delete/<pk>/', UrlDeleteView.as_view(), name = 'urls_delete'),
+    path('urls/edit/<pk>/', UrlUpdateView.as_view(), name = 'urls_edit')
 ]
