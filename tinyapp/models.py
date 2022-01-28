@@ -14,6 +14,6 @@ class Users(models.Model):
 class Url(models.Model):
     short_url = models.URLField(max_length=10)
     long_url = models.URLField(max_length=256)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateField()
 

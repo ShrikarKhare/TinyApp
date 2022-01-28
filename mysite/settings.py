@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 AUTH_USER_MODEL = 'tinyapp.User'
@@ -19,7 +22,7 @@ AUTH_USER_MODEL = 'tinyapp.User'
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ua@s8f7s*leg$-ga(1-bkrw#ujct-mk97@-2zo-so9ktplf#bv'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,11 +82,11 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'tinyapp',
+        'NAME': env('DATABASE_NAME'),
 
-        'USER': 'tiny_user',
+        'USER': env('DATABASE_USER'),
 
-        'PASSWORD': 'password',
+        'PASSWORD': env('DATABASE_PASS'),
 
         'HOST': 'localhost',
 

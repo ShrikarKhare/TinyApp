@@ -1,16 +1,9 @@
 {% extends "base.html" %} 
-
+{% block title %}URL New{% endblock %}
 {% block content %}
-<!DOCTYPE html>
-<main style="margin: 1em;">
   <h3>Create TinyURL</h3>
-  <form class="form-inline" action="" method="POST">
-    {% csrf_token %}
-    <div class="form-group mb-2">
-      <label for="longURL">Enter a URL:</label>
-      <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em">
+  <form class="form-inline" method="POST">
+    {% csrf_token %}{{ form.as_p }}
       <button type="submit" class="btn btn-primary">Create</button>
-    </div>
   </form>
-</main>
 {% endblock %}

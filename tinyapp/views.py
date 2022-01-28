@@ -1,8 +1,12 @@
+from datetime import date
+from enum import auto
 from re import template
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from django.forms import ModelForm, TextInput
+from django.urls import reverse
 from .models import User
 from .models import Url
 from .forms import UserRegisterForm
@@ -26,17 +30,33 @@ class UrlModelForm(ModelForm):
         widgets = {
             'long_url': TextInput(attrs={'placeholder': 'http://'})
         }
-            
+class UrlDetailView(DetailView):
+    model = Url           
+    template_name = 'urls_detail.html'
+
+class UrlRedirectView(DetailView):
+    def get(self, request, short_url):                          
+        long = Url.objects.values_list('long_url', flat = True).get(short_url = short_url)
+        
+        return HttpResponseRedirect(long)
 
 class UrlCreateView(CreateView):
+    
     form_class = UrlModelForm
-    success_url = '/urls/'
+    success_url = '/urls'
     template_name = 'urls_new.html'
+    
     def shortURLCreator(self):
         x = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
         return x
     def form_valid(self, form):
-        user = User
+        user = User.objects.first() #filter(username='shri').values_list('id')
+        
         form.instance.user = user
         form.instance.short_url = self.shortURLCreator()
+        form.instance.date_created = date.today()
         return super().form_valid(form)
+    # def post(self, request):
+    #     form = self.form_class(request.POST)
+    #     return self.form_valid(form)
+
