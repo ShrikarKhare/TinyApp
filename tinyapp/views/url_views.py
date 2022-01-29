@@ -7,7 +7,6 @@ import random, string
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class URLListView(LoginRequiredMixin,ListView):
-    login_url = '/login/'
     model = Url
     context_object_name = 'urls'   # your own name for the list as a template variable
     # queryset = Url.objects.all()
@@ -27,13 +26,18 @@ class URLListView(LoginRequiredMixin,ListView):
         context = super().get_context_data(**kwargs)
         return context
 
-class UrlDeleteView(LoginRequiredMixin,DeleteView):
-    login_url = '/login/'
+class UrlModelForm(ModelForm):
+    class Meta:
+        model = Url
+        fields = ['long_url']
+        widgets = {
+            'long_url': TextInput(attrs={'placeholder': 'http://'})
+        }
+class UrlDeleteView(DeleteView):
     model = Url
     success_url = '/urls'
 
-class UrlUpdateView(LoginRequiredMixin,UpdateView):
-    login_url = '/login/'
+class UrlUpdateView(UpdateView):
     model = Url 
     success_url = '/urls'
     fields = ['long_url']
@@ -60,15 +64,14 @@ class UrlUpdateView(LoginRequiredMixin,UpdateView):
         
         return super().get(request, *args, **kwargs)
 
-class UrlRedirectView(LoginRequiredMixin,DetailView):
-    login_url = '/login/'
+class UrlRedirectView(DetailView):
     def get(self, request, short_url):                          
         long = Url.objects.values_list('long_url', flat = True).get(short_url = short_url)
         
         return HttpResponseRedirect(long)
 
-class UrlCreateView(LoginRequiredMixin,CreateView):
-    login_url = '/login/'
+class UrlCreateView(CreateView):
+    
     form_class = UrlModelForm
     success_url = '/urls'
     template_name = 'urls_new.html'

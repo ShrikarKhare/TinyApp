@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import User, Url
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 
 class UserRegisterForm(UserCreationForm):
     class Meta:

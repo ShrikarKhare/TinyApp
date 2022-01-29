@@ -35,6 +35,9 @@
               {% endif %}
               <li class="nav-item {{ 'nav-link active' }}" > <a style ='color: white; text-decoration:none;' href="{% url 'urls' %}"> My URLs</a></li>
               <li class="nav-item {{ 'nav-link active' }}" > <a style ='color: white; text-decoration:none;' href="{% url 'urls_new' %}">Create New URL</a></li>
+              {% if perms.tinyapp.view_user %}
+              <li class="nav-item {{ 'nav-link active' }}" > <a style ='color: white; text-decoration:none;' href="{% url 'users_page' %}">My Users</a></li>
+              {%endif%}
             </ul>
           </div>
           {% if user.is_authenticated == False %}
