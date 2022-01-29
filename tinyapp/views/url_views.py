@@ -4,9 +4,10 @@ from django.views.generic import CreateView, ListView,DetailView, DeleteView, Up
 from django.forms import ModelForm, TextInput
 from tinyapp.models import User, Url
 import random, string
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-
-class URLListView(ListView):
+class URLListView(LoginRequiredMixin,ListView):
+    login_url = '/login/'
     model = Url
     context_object_name = 'urls'   # your own name for the list as a template variable
     # queryset = Url.objects.all()
@@ -26,18 +27,13 @@ class URLListView(ListView):
         context = super().get_context_data(**kwargs)
         return context
 
-class UrlModelForm(ModelForm):
-    class Meta:
-        model = Url
-        fields = ['long_url']
-        widgets = {
-            'long_url': TextInput(attrs={'placeholder': 'http://'})
-        }
-class UrlDeleteView(DeleteView):
+class UrlDeleteView(LoginRequiredMixin,DeleteView):
+    login_url = '/login/'
     model = Url
     success_url = '/urls'
 
-class UrlUpdateView(UpdateView):
+class UrlUpdateView(LoginRequiredMixin,UpdateView):
+    login_url = '/login/'
     model = Url 
     success_url = '/urls'
     fields = ['long_url']
@@ -64,14 +60,15 @@ class UrlUpdateView(UpdateView):
         
         return super().get(request, *args, **kwargs)
 
-class UrlRedirectView(DetailView):
+class UrlRedirectView(LoginRequiredMixin,DetailView):
+    login_url = '/login/'
     def get(self, request, short_url):                          
         long = Url.objects.values_list('long_url', flat = True).get(short_url = short_url)
         
         return HttpResponseRedirect(long)
 
-class UrlCreateView(CreateView):
-    
+class UrlCreateView(LoginRequiredMixin,CreateView):
+    login_url = '/login/'
     form_class = UrlModelForm
     success_url = '/urls'
     template_name = 'urls_new.html'
