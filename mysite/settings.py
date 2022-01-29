@@ -29,6 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = '/urls'
+LOGOUT_REDIRECT_URL = '/urls'
 
 # Application definition
 
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tinyapp',
     'bootstrap5',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

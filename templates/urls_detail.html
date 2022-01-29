@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}URL Detail{% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
 <div class="card text-center">
     <div class="card-header"></div>
     <div class="card-body">
@@ -14,5 +15,8 @@
       </form>
     </div>
   </div>
-
+  {% endif %}
+  {% if user.is_authenticated == False %}
+  <h3>You Shall not Pass! Please <a href="{% url 'user_login' %}">login</a> or <a href="{% url 'register' %}">register</a></h3>
+{% endif %}
 {% endblock %}

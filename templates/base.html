@@ -30,11 +30,24 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-              <li class="nav-item {{ 'nav-link active' }}"> Register </li>
-              <li class="nav-item {{ 'nav-link active' }}"> My URLs </li>
-              <li class="nav-item {{ 'nav-link active' }}"> Create New URL </li>
+              <li class="nav-item {{ 'nav-link active' }}" > <a href="{% url 'register' %}"> Register</a></li>
+              <li class="nav-item {{ 'nav-link active' }}"> <a href="{% url 'urls' %}"> My URLs</a></li>
+              <li class="nav-item {{ 'nav-link active' }}"> <a href="{% url 'urls_new' %}">Create New URL</a></li>
             </ul>
           </div>
+          {% if user.is_authenticated == False %}
+            
+            <form method="get" action="/login/">{% csrf_token %}
+              <div><button class="btn btn-boundary-primary" type="submit">Login</button></div>
+            </form>
+          {% endif %}
+          {% if user.is_authenticated %}
+            <div class="navbar-brand">Welcome {{user.first_name}}!</div>
+            
+            <form method="get" action="/logout/">{% csrf_token %}
+              <div><button class="btn btn-danger" type="submit">Log out</button></div>
+            </form>
+          {% endif %}
         </div>
       </nav>
     <div class="container">

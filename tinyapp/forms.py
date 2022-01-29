@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import User, Url
+from django.forms import ModelForm
 
 class UserRegisterForm(UserCreationForm):
     class Meta:
@@ -14,3 +15,7 @@ class UrlCreateForm(UserCreationForm):
         model = Url
 
         fields = ['long_url']
+class UserLoginForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password']
