@@ -1,0 +1,14 @@
+asgiref==3.5.0
+bcrypt==3.2.0
+beautifulsoup4==4.10.0
+cffi==1.15.0
+Django==4.0.1
+django-bootstrap-v5==1.0.8
+django-crispy-forms==1.14.0
+django-environ==0.8.1
+psycopg2==2.9.3
+pycparser==2.21
+six==1.16.0
+soupsieve==2.3.1
+sqlparse==0.4.2
+tzdata==2021.5
