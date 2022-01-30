@@ -21,7 +21,6 @@ class Url(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateField()
     clicked = models.IntegerField(default = 0)
-    
     def __str__(self):
         return self.short_url
 
