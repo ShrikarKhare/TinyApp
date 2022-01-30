@@ -20,7 +20,8 @@ class Url(models.Model):
     long_url = models.URLField(max_length=256)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateField()
-    clicked = models.IntegerField(default = 0)
+    slug = models.SlugField(unique=True, max_length=256)
+
     def __str__(self):
         return self.short_url
 

@@ -5,11 +5,11 @@ from django.forms import ModelForm, TextInput
 from tinyapp.models import User, Url
 import random, string
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.text import slugify
 
 class URLListView(LoginRequiredMixin,ListView):
     model = Url
-    context_object_name = 'urls'   # your own name for the list as a template variable
-    # queryset = Url.objects.all()
+    context_object_name = 'urls'   
     def get_queryset(self):
         
         current_user_id = self.request.user.id
@@ -19,11 +19,11 @@ class URLListView(LoginRequiredMixin,ListView):
         
         return Url.objects.filter(user_id=current_user_id) 
 
-    # current_user_id = self.request.user.id
-    # queryset = User.objects.filter(pk = current_user_id)
-    template_name = 'urls_index.html'  # Specify your own template name/location
+    template_name = 'urls_index.html'  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['username'] = self.request.session.get('username')
+
         return context
 
 class UrlModelForm(ModelForm):
@@ -43,18 +43,20 @@ class UrlUpdateView(UpdateView):
     fields = ['long_url']
     template_name = 'urls_detail.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['username'] = self.request.session.get('username') # Set cookie in the context object
-
+        context['username'] = self.request.session.get('username') 
+        cookie_id = str(context['url']) 
         
-        total_visits = str(context['url'])
-        # visitor_count = str(context['visitors'])
-        
-        if self.request.session.get(total_visits) == None:
-            context['total_visits'] = 0
+        if self.request.COOKIES.get(cookie_id) == None:
+            context['total_visits'] = 0 
         else:
-            context['total_visits'] = self.request.session.get(total_visits)
+            context['total_visits'] = self.request.COOKIES.get(cookie_id)
+            
+        if self.request.COOKIES.get(cookie_id + 'unique_visits') == None:
+            context['unique_visits'] = 0 
+        else:
+            context['unique_visits'] = self.request.COOKIES.get(cookie_id + 'unique_visits')
         
         return context
 
@@ -84,22 +86,38 @@ class UrlRedirectView(DetailView):
         return count
         
     def get(self, request, short_url):                          
-        long = Url.objects.values_list('long_url', flat = True).get(short_url = short_url)
-
-        key = short_url
-
-        if key in self.request.session.keys():
-            self.request.session[key] += 1
-        else:
-            self.request.session[key] = 1
-
-        # visitors = self.count_unique_ids()
-        # context = super().get_context_data(**kwargs)
-        # context['visitors'] = self.request.session.get('visitors')
-        # print(context['visitors'])
-        return HttpResponseRedirect(long)
-
         
+        self.short_url = short_url
+             
+        url_obj = Url.objects.filter(short_url=short_url)
+        
+        response = HttpResponseRedirect(url_obj[0].long_url)
+        
+        cookie_id = short_url 
+        
+        
+        if cookie_id in request.COOKIES.keys():
+            counter =  int(request.COOKIES[cookie_id]) + 1
+            response.set_cookie(cookie_id, counter)   
+        else:
+            response.set_cookie(cookie_id, 1)
+                                  
+        cookie_id = short_url + "unique_visits" 
+
+        if self.request.session.get('username') == None:
+
+            if cookie_id in request.COOKIES.keys():
+                count = int(request.COOKIES[cookie_id]) + 1
+                response.set_cookie(cookie_id, count)
+            else:
+                response.set_cookie(cookie_id, 1)
+        else:
+            if cookie_id in request.COOKIES.keys():
+                response.set_cookie(cookie_id, request.COOKIES[cookie_id])
+            else:
+                response.set_cookie(cookie_id, 1)
+            
+        return response
 
 
     def get_context_data(self, **kwargs):
@@ -118,23 +136,17 @@ class UrlCreateView(CreateView):
         return x
     
     def form_valid(self, form):
-        # user = User.objects.first()
         current_user_id = self.request.user.id
         user = User.objects.filter(pk = current_user_id).first()
         form.instance.user = user
         form.instance.short_url = self.shortURLCreator()
         form.instance.date_created = date.today()
-        
+        # form.instance.slug_field = slugify(form.instance.long_url)
         return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['username'] = self.request.session.get('username')
-        # total_visits = str(context['url'])
-        
-        # if self.request.session.get(total_visits) == None:
-        #     context['total_visits'] = 0
-        # else:
-        #     context['total_visits'] = self.request.session.get(total_visits)
+
         return context
     
