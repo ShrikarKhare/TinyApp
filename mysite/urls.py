@@ -27,7 +27,7 @@ urlpatterns = [
     path('urls/<pk>/', UrlUpdateView.as_view(), name ='urls_detail'),
     path('urls/u/<short_url>/', UrlRedirectView.as_view(), name ='urls_redirect'),
     path('urls/delete/<pk>/', UrlDeleteView.as_view(), name = 'urls_delete'),
-    path('login/', UserLoginView.as_view(), name = 'user_login'),
+    path('login/', UserLoginView.as_view(redirect_authenticated_user = True), name = 'user_login'),
     path('logout/', LogoutView.as_view(), name= 'user_logout'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('change-password/', PasswordChangeView.as_view()),

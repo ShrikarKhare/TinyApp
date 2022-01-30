@@ -14,9 +14,10 @@ class UserRegistrationView(CreateView):
 
 class UserLoginView(LoginView):
     success_url='/urls'
+    
   # Redirect to the urls list on success
     
     def form_valid(self, form):
         self.request.session['username'] = form.cleaned_data['username']
-        
+        LoginView.redirect_authenticated_user
         return super().form_valid(form)

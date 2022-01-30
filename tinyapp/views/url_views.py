@@ -49,6 +49,7 @@ class UrlUpdateView(UpdateView):
 
         
         total_visits = str(context['url'])
+        # visitor_count = str(context['visitors'])
         
         if self.request.session.get(total_visits) == None:
             context['total_visits'] = 0
@@ -73,10 +74,17 @@ class UrlUpdateView(UpdateView):
         
         return super().get(request, *args, **kwargs)
 
+
 class UrlRedirectView(DetailView):
+    def count_unique_ids(self):
+        count = 0
+        if self.request.session.get('username') == None:
+            count += 1
+
+        return count
+        
     def get(self, request, short_url):                          
         long = Url.objects.values_list('long_url', flat = True).get(short_url = short_url)
-        
 
         key = short_url
 
@@ -85,8 +93,14 @@ class UrlRedirectView(DetailView):
         else:
             self.request.session[key] = 1
 
-        print(self.request.session[key])
+        # visitors = self.count_unique_ids()
+        # context = super().get_context_data(**kwargs)
+        # context['visitors'] = self.request.session.get('visitors')
+        # print(context['visitors'])
         return HttpResponseRedirect(long)
+
+        
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -116,5 +130,11 @@ class UrlCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['username'] = self.request.session.get('username')
+        # total_visits = str(context['url'])
         
+        # if self.request.session.get(total_visits) == None:
+        #     context['total_visits'] = 0
+        # else:
+        #     context['total_visits'] = self.request.session.get(total_visits)
         return context
+    
