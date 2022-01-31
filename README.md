@@ -9,7 +9,7 @@ Ever feel like you're copy pasting links that are too long? TinyApp is a full st
 
 ## Final Product
 
-!["Login Page"](https://github.com/ShrikarKhare/TinyApp/Images/LandingPage.JPG)
+![Login Page](https://github.com/ShrikarKhare/TinyApp/Images/LandingPage.JPG)
 !["screenshot description"](# Main login page)
 
 ## Dependencies
