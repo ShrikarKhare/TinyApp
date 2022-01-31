@@ -10,6 +10,8 @@ Ever feel like you're copy pasting links that are too long? TinyApp is a full st
 ## Final Product
 
 ![Login Page](Images/LandingPage.JPG)
+* Landing page
+![Main Page](Images/MainPage.JPG)
 * Main login page
 
 ## Dependencies
