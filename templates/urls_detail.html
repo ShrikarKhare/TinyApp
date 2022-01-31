@@ -16,8 +16,24 @@
       </form>
     </div>
   </div>
-  {% endif %}
-  {% if user.is_authenticated == False %}
+
+  <br/>
+    <div class="text-center"><h2>Visitor data</h2></div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+                <th scope="col" class="text-center">Visitor ID</th>
+                <th scope="col" class="text-center">Time Visited</th> 
+            </tr>
+          </thead>
+          {% for v in visitors %}
+          <tr>
+            <td class="text-center">{{ v.visitor_id }}</td>
+            <td class="text-center">{{ v.time_visited }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+  {% else %}
   <h3>You Shall not Pass! Please <a href="{% url 'user_login' %}">login</a> or <a href="{% url 'register' %}">register</a></h3>
 {% endif %}
 {% endblock %}

@@ -25,5 +25,5 @@ class UrlModelForm(ModelForm):
         model = Url
         fields = ['long_url']
         widgets = {
-            'long_url': TextInput(attrs={'placeholder': 'https://', 'class': 'form-control bg-info'})
+            'long_url': TextInput(attrs={'placeholder': 'https://', 'class': 'form-control'})
         }

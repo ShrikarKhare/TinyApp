@@ -24,7 +24,7 @@ urlpatterns = [
     path('register/', UserRegistrationView.as_view(), name='register'),
     path('urls/', URLListView.as_view(), name='urls'),
     path('urls/new/', UrlCreateView.as_view(), name ='urls_new'),
-    path('urls/<pk>', UrlUpdateView.as_view(), name ='urls_detail'),
+    path('urls/<pk>/<slug>', UrlUpdateView.as_view(), name ='urls_detail'),
     path('urls/u/<short_url>/', UrlRedirectView.as_view(), name ='urls_redirect'),
     path('urls/delete/<pk>/', UrlDeleteView.as_view(), name = 'urls_delete'),
     path('login/', UserLoginView.as_view(redirect_authenticated_user = True), name = 'user_login'),

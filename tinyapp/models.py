@@ -1,29 +1,27 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-# Create your models here.
 
+# Definition of User model
 class User(AbstractUser):
-    pass
-class Users(models.Model):
-    first_name = models.CharField(max_length=128)
-    last_name = models.CharField(max_length=128)
-    user_name = models.CharField(max_length=128)
-    email = models.CharField(max_length=128)
-    password = models.CharField(max_length=100)
-
     def __str__(self):
-        return self.first_name
-        
-class Url(models.Model):
-    short_url = models.URLField(max_length=10)
-    long_url = models.URLField(max_length=256)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_created = models.DateField()
-    slug = models.SlugField(unique=True, max_length=256)
+        return self.first_name + " " + self.last_name
 
+# Definition of URL model
+class Url(models.Model):
+    short_url = models.CharField(verbose_name='Short URL', max_length=6,unique=True)
+    long_url = models.URLField(verbose_name='Long URL',max_length=500)
+    user = models.ForeignKey('User',on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now=True)
+    slug_field = models.SlugField(max_length=100)
+    
     def __str__(self):
         return self.short_url
 
     def get_absolute_url(self):
-       return reverse('urls_detail', args=[str(self.pk)])
+       return reverse('urls_detail', kwargs={'pk':self.pk,'slug': self.slug_field})
+
+class Visitor(models.Model):
+    visitor_id = models.CharField(max_length=20)
+    short_url = models.CharField(max_length=6)
+    time_visited = models.DateTimeField(auto_now=True)

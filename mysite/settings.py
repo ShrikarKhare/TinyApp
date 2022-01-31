@@ -27,7 +27,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['shrikarK']
+ALLOWED_HOSTS = ['shrikarK', '127.0.0.1']
 
 LOGIN_REDIRECT_URL = '/urls'
 LOGOUT_REDIRECT_URL = '/urls'
