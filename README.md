@@ -4,7 +4,7 @@ Ever feel like you're copy pasting links that are too long? TinyApp is a full st
 
 # Link to Deployed App
 
-["TinyApp"](http://shrikarK.pythonanywhere.com)
+[TinyApp](http://shrikarK.pythonanywhere.com)
 ** Link active till end of April 2022 **
 
 ## Final Product
