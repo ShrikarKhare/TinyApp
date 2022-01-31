@@ -1,21 +1,33 @@
 # TinyApp Project
 
-TinyApp is a full stack web application built with Python and Django that allows users to shorten long URLs (à la bit.ly).
+Ever feel like you're copy pasting links that are too long? TinyApp is a full stack web application built with Python and Django that allows users to shorten long URLs (à la bit.ly).
 
 # Link to Deployed App
 
-[Link text here](link-to-app)
-** notes here **
+["Python Anywhere link"](shrikarK.pythonanywhere.com)
+** Link active till end of April 2022 **
 
 ## Final Product
 
-!["screenshot description"] http://shrikark.pythonanywhere.com
-!["screenshot description"](#)
+!["Login Page"](https://github.com/ShrikarKhare/TinyApp/Images/LandingPage.JPG)
+!["screenshot description"](# Main login page)
 
 ## Dependencies
 
-- crispy-forms
-- add all dependencies here
+- asgiref
+- bcrypt
+- beautifulsoup4
+- cffi
+- Django
+- django-bootstrap-v5
+- django-crispy-forms
+- django-environ
+- psycopg2
+- pycparser
+- six
+- soupsieve
+- sqlparse
+- tzdata
 
 
 ## Getting Started
